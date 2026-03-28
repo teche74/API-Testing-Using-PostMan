@@ -1,0 +1,407 @@
+{
+  "info": {
+    "_postman_id": "8942bc10-7409-406d-a983-c99fc0b4ff64",
+    "name": "Petstore_Swagger_io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25501398"
+  },
+  "item": [
+    {
+      "name": "Create Single User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status Code must be 200' , function(){\r",
+              "    pm.expect(pm.response.to.have.status == 200);\r",
+              "})\r",
+              "\r",
+              "pm.test('Asserting Body' , function(){\r",
+              "    let responseBody = pm.response.json();\r",
+              "\r",
+              "    pm.expect(responseBody.type).to.eql(\"unknown\")\r",
+              "})\r",
+              "\r",
+              "\r",
+              "const requestBodyString = pm.request.body;\r",
+              "const requestBodyJson = JSON.parse(requestBodyString);\r",
+              "pm.collectionVariables.set('userNamePetStore' , requestBodyJson.username)"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": {{id}},\r\n  \"username\": \"{{username}}\",\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"phone\": \"{{phone}}\",\r\n  \"userStatus\": {{userStatus}}\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Assert Response Body\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.type).to.eql(\"unknown\");\r",
+              "    pm.expect(jsonData.message).contains(\"logged in user\")\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/login?username=temp24@gmail.com&password=5678923",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "login"
+          ],
+          "query": [
+            {
+              "key": "username",
+              "value": "temp24@gmail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "5678923",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Multiple User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n  {\r\n    \"id\": 82,\r\n    \"username\": \"ram47\",\r\n    \"firstName\": \"ram\",\r\n    \"lastName\": \"mohan\",\r\n    \"email\": \"rmohan67@gmail.com\",\r\n    \"password\": \"56789tyuio\",\r\n    \"phone\": \"6789012831\",\r\n    \"userStatus\": 1\r\n  },\r\n  {\r\n    \"id\": 72,\r\n    \"username\": \"raksh47\",\r\n    \"firstName\": \"rakesh\",\r\n    \"lastName\": \"rani\",\r\n    \"email\": \"rrani7@gmail.com\",\r\n    \"password\": \"temp67890\",\r\n    \"phone\": \"6789012184\",\r\n    \"userStatus\": 1\r\n  }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/createWithArray",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "createWithArray"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout User",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/logout",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status must be 200' , function(){\r",
+              "    pm.expect(pm.response.status).to.be.eql(\"OK\");\r",
+              "})\r",
+              "\r",
+              "pm.test('Assert Deletion' , function(){\r",
+              "    const responseBody = pm.response.json();\r",
+              "    const user = pm.collectionVariables.get(\"userNamePetStore\")\r",
+              "    pm.expect(responseBody.message).to.be.eql(user)\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/{{userNamePetStore}}",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "{{userNamePetStore}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": 0,\r\n  \"username\": \"teche74\",\r\n  \"firstName\": \"Ujjwal\",\r\n  \"lastName\": \"Bisht\",\r\n  \"email\": \"ramp5463@gmail.com\",\r\n  \"password\": \"tyuiop56789\",\r\n  \"phone\": \"5678901232\",\r\n  \"userStatus\": 1\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/{{userName}}",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "{{userName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/v2/user/{{userName}}",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "user",
+            "{{userName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Pet Inventory",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"All values should be numbers\", function () {\r",
+              "    let jsonData = pm.response.json();\r",
+              "\r",
+              "    Object.values(jsonData).forEach(value => {\r",
+              "        pm.expect(value).to.be.a(\"number\");\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}/v2/store/inventory",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "store",
+            "inventory"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Place Pet Order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Your test name\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.complete).to.eql(true);\r",
+              "    pm.collectionVariables.set('petOrderId' , jsonData.petId);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": 0,\r\n  \"petId\": 2,\r\n  \"quantity\": 10,\r\n  \"shipDate\": \"2026-03-28T06:47:05.509Z\",\r\n  \"status\": \"In Queue\",\r\n  \"complete\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BaseUrl}}/v2/store/order",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "store",
+            "order"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find Purchase Order",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}/v2/store/order/{{petOrderId}}",
+          "host": [
+            "{{BaseUrl}}"
+          ],
+          "path": [
+            "v2",
+            "store",
+            "order",
+            "{{petOrderId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BaseUrl",
+      "value": ""
+    },
+    {
+      "key": "userNamePetStore",
+      "value": ""
+    },
+    {
+      "key": "petOrderId",
+      "value": ""
+    }
+  ]
+}
